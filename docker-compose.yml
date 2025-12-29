@@ -1,10 +1,16 @@
+version: "3.8"
+
 services:
   localstack:
-    image: localstack/localstack
     container_name: localstack
+    image: localstack/localstack
     ports:
-      - "4566:4566"
+      - "4566:4566"        
+      - "4510-4559:4510-4559" 
     environment:
-      - GATEWAY_LISTEN=0.0.0.0:4566
+      - SERVICES=s3,dynamodb,lambda,iam,cloudwatch
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "./localstack_data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
