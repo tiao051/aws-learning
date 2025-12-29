@@ -63,8 +63,7 @@ def deploy():
 
     # Sleep 2 seconds to allow the system to save permissions
     time.sleep(2)
-
-    print("\n--- 4. LINKING ---")
+    
     try:
         s3_client.put_bucket_notification_configuration(
             Bucket=BUCKET_NAME,
