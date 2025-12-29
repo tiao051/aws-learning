@@ -1,3 +1,4 @@
+import logging
 from helper import get_resource
 
 dynamodb = get_resource('dynamodb')
@@ -20,9 +21,9 @@ def create_table():
                     'WriteCapacityUnits': 5
                 }
             )
-            print("Table 'Images' created successfully.")
+            logging.info("Table 'Images' created successfully.")
     except Exception as e:
-        print(f"Error creating table: {e}")
+        logging.info(f"Error creating table: {e}")
 
 def create_image_info(image_id, file_name, user_owner):
     try:
@@ -34,17 +35,17 @@ def create_image_info(image_id, file_name, user_owner):
                 'states': 'uploaded'
             }
         )
-        print(f"Image info for {image_id} added successfully.")
+        logging.info(f"Image info for {image_id} added successfully.")
     except Exception as e:
-        print(f"Error adding image info: {e}")
+        logging.info(f"Error adding image info: {e}")
 
 def get_image_info(image_id):
     try:
         response = table.get_item(Key={'image_id': image_id})
         if 'Item' in response:
-            print(f"Image info retrieved: {response['Item']}")
+            logging.info(f"Image info retrieved: {response['Item']}")
     except Exception as e:
-        print(f"Error retrieving image info: {e}")
+        logging.info(f"Error retrieving image info: {e}")
         return None
             
 if __name__ == "__main__":

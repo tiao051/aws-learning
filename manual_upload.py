@@ -1,3 +1,4 @@
+import logging
 import boto3
 
 s3 = boto3.client('s3', endpoint_url='http://localhost:4566')
@@ -9,8 +10,8 @@ with open(file_name, "w") as f:
     f.write("Test upload trigger lambda")
 
 try:
-    print(f"Processing file '{file_name}' into bucket '{bucket_name}'...")
+    logging.info(f"Processing file '{file_name}' into bucket '{bucket_name}'...")
     s3.upload_file(file_name, bucket_name, file_name)
-    print("Upload successful! Lambda will run immediately.")
+    logging.info("Upload successful! Lambda will run immediately.")
 except Exception as e:
-    print(f"Upload error: {e}")
+    logging.info(f"Upload error: {e}")

@@ -1,3 +1,4 @@
+import logging
 import boto3
 import json
 import urllib.parse
@@ -11,13 +12,13 @@ dynamodb = boto3.resource('dynamodb',
 table = dynamodb.Table('Images')
 
 def lambda_handler(event, context):
-    print("Received event:", event)
+    logging.info(f"Received event: {event}")
     
     for record in event['Records']:
         bucket_name = record['s3']['bucket']['name']
         file_name = urllib.parse.unquote_plus(record['s3']['object']['key'])
 
-        print(f"New file uploaded: {file_name} in bucket: {bucket_name}")
+        logging.info(f"New file uploaded: {file_name} in bucket: {bucket_name}")
 
         try:
             timestamp = datetime.now().isoformat()
@@ -30,9 +31,9 @@ def lambda_handler(event, context):
                     'status': 'processed_by_lambda'
                 }
             )
-            print(f"Image info for {file_name} added to DynamoDB.")
+            logging.info(f"Image info for {file_name} added to DynamoDB.")
         except Exception as e:
-            print(f"Error adding image info to DynamoDB: {e}")
+            logging.info(f"Error adding image info to DynamoDB: {e}")
 
     return {
         'statusCode': 200,

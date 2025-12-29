@@ -1,3 +1,4 @@
+import logging
 import zipfile
 import os
 import time
@@ -32,7 +33,7 @@ def deploy():
         with zipfile.ZipFile(ZIP_FILE, 'w') as zipf:
             zipf.write(SOURCE_FILE)
     except Exception as e:
-        print(f"Error zipping: {e}")
+        logging.info(f"Error zipping: {e}")
         return
     with open(ZIP_FILE, 'rb') as f:
         zip_content = f.read()
@@ -59,11 +60,11 @@ def deploy():
             SourceAccount='000000000000'
         )
     except Exception as e:
-        print(f"Warning when grant permission: {e}")
+        logging.info(f"Warning when grant permission: {e}")
 
     # Sleep 2 seconds to allow the system to save permissions
     time.sleep(2)
-    
+
     try:
         s3_client.put_bucket_notification_configuration(
             Bucket=BUCKET_NAME,
@@ -77,9 +78,9 @@ def deploy():
             },
             SkipDestinationValidation=True 
         )
-        print("S3 has been linked with Lambda.")
+        logging.info("S3 has been linked with Lambda.")
     except Exception as e:
-        print(f"Error in linking step: {handle_error(e)}")
+        logging.info(f"Error in linking step: {handle_error(e)}")
         
     finally:
         if os.path.exists(ZIP_FILE):
