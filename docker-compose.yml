@@ -1,0 +1,10 @@
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - GATEWAY_LISTEN=0.0.0.0:4566
+    volumes:
+      - "./localstack_data:/var/lib/localstack"
