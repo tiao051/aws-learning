@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.env
+venv/
+env/
+
+# LocalStack data
+localstack_data/
+
+# IDE
+.vscode/
+.idea/
